@@ -59,11 +59,11 @@ class DeferredClientRequest(object):
         self.path_sections.append(str(path_section))
         return self
 
-    def make_request(self, method, payload):
+    def make_request(self, method, payload, extra_sections=[]):
         if self.path_sections and 'dashboards' in self.path_sections[0]:
             self.path_sections[-1] = self.path_sections[-1].replace('_', '-')
 
-        endpoint = "/".join(self.path_sections)
+        endpoint = "/".join(self.path_sections + extra_sections)
         return self.client.make_raw_request(method, endpoint, payload)
 
     def __call__(self, **payload):
